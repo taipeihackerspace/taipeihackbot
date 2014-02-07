@@ -27,3 +27,8 @@ bot.addListener("join", function(channel, who) {
     }
 
 });
+
+// Error listener, so it doesn't crash
+client.addListener('error', function(message) {
+    console.log('error: ', message);
+});
