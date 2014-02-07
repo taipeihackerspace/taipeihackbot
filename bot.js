@@ -2,7 +2,7 @@
 var config = {
     channels: ["#taipeihack"],
     server: "irc.freenode.net",
-    botName: "taipeihackbot",
+    botName: "hackybot",
     admins: ["imrehg"]
 };
 
