@@ -28,6 +28,14 @@ bot.addListener("join", function(channel, who) {
 
 });
 
+bot.addListener('message', function (from, to, message) {
+    console.log(from + ' => ' + to + ': ' + message);
+});
+
+bot.addListener('pm', function (from, message) {
+    console.log(from + ' => ME: ' + message);
+});
+
 // Error listener, so it doesn't crash
 bot.addListener('error', function(message) {
     console.log('error: ', message);
