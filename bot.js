@@ -1,6 +1,7 @@
 var fs    = require('fs')
   , nconf = require('nconf')
   , irc = require("irc")
+  , request = require('request')
 ;
 
 // Configuration
@@ -43,22 +44,40 @@ bot.addListener("join", function(channel, who) {
 
 bot.addListener('message', function (from, to, message) {
     console.log(from + ' => ' + to + ': ' + message);
-    var mp = message.split(' ');
-    if (mp[0] === botName) {
-	switch (mp[1]) {
-	    case 'help':
-	       bot.say(to, 'Got to figure it out yourself, I guess...');
-	       break;
-	    case 'flip':
-	       var outcome = (Math.random() > 0.5) ? 'heads' : 'tails';
-	       bot.say(to, 'It\'s '+outcome);
-	       break;
-	    case 'roll':
-	       var outcome = Math.floor(Math.random() * 6) + 1;
-	       bot.say(to, 'Rolled a '+outcome);
-	       break;
-	    default:
-	       bot.say(to, "Hmm?");
+    if ((message.length > 0) && (message[0] === '!')) {
+	var mp = message.split(' ')
+	  , botcmd = mp[0].slice(1)
+	  , botcargs = mp.splice(1);
+	;
+	switch (botcmd) {
+	case 'help':
+	    bot.say(to, "I'm learning it too...");
+	    break;
+	case 'flip':
+	    var outcome = (Math.random() > 0.5) ? 'heads' : 'tails';
+	    bot.say(to, 'It\'s '+outcome+".");
+	    break;
+	case 'roll':
+	    var dice = parseInt(botcargs[0]) || 6;
+	    if (dice > 0) {
+		var outcome = Math.floor(Math.random() * dice) + 1;
+		bot.say(to, 'Rolled a '+outcome);
+	    } else {
+		bot.say(to, "Hey everyone, we've got a joker here, aye, "+from+"?");
+	    }
+	    break;
+	case 'open':
+	    request.get('http://tpehack.no-ip.biz/spaceapi/',
+			function (error, response, body) {
+			    if (!error && response.statusCode == 200) {
+				var info = JSON.parse(body);
+				var outcome = info.state.open ? 'open :)' : 'closed :/';
+				bot.say(to, "The 'space appears to be "+outcome);
+			    }
+			});
+	    break;
+	default:
+	    bot.say(to, "Hmm? Don't quite know what's '"+botcmd+"'...");
 	}
     }
 });
