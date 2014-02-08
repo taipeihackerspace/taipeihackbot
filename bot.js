@@ -1,28 +1,41 @@
-// Create the configuration
-var config = {
+var fs    = require('fs')
+  , nconf = require('nconf')
+  , irc = require("irc")
+;
+
+// Configuration
+var args = process.argv.splice(2);
+nconf.argv()
+    .env()
+    .file({ file: args[0] });
+
+nconf.defaults({
     channels: ["#taipeihack"],
     server: "irc.freenode.net",
-    botName: "hackybot",
-    admins: ["imrehg"]
-};
+    botname: "mybot",
+    admins: []
+});
 
-// Get the lib
-var irc = require("irc");
+var channels = nconf.get('channels')
+  , server = nconf.get('server')
+  , botName = nconf.get('botName')
+  , admins = nconf.get('admins')
+;
 
 // Create the bot name
-var bot = new irc.Client(config.server, config.botName, {
-    channels: config.channels
+var bot = new irc.Client(server, botName, {
+    channels: channels
 });
 
 // Listen for joins
 bot.addListener("join", function(channel, who) {
     // Welcome them in!
-    if (who === config.botName) {
+    if (who === botName) {
 	return;
     }
 
     bot.say(channel, who + "...heya...welcome to the (virtual) Hackerspace!");
-    if (config.admins.indexOf(who) >= 0) {
+    if (admins.indexOf(who) >= 0) {
 	bot.send('MODE', channel, '+o', who);
     }
 
@@ -31,7 +44,7 @@ bot.addListener("join", function(channel, who) {
 bot.addListener('message', function (from, to, message) {
     console.log(from + ' => ' + to + ': ' + message);
     var mp = message.split(' ');
-    if (mp[0] === config.botName) {
+    if (mp[0] === botName) {
 	switch (mp[1]) {
 	    case 'help':
 	       bot.say(to, 'Got to figure it out yourself, I guess...');

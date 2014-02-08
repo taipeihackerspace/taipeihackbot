@@ -1,0 +1,9 @@
+{
+    "channels": [
+        "#taipeihack"
+    ],
+    "server": "irc.freenode.net",
+    "botName": "taipeihackbot",
+    "admins": [
+    ]
+}
