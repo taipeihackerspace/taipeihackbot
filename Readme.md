@@ -6,6 +6,7 @@ op to a list of admin users. But in the future!
 
 ## Working commands
 
+* `!help`: not very useful help
 * `!flip`: flip a coin, heads or tails
 * `!roll <sides>`: roll a dice, default 6 sided, or if a number given then that
 * `!open`: is anyone checked in the space ("are we open?") using SpaceAPI
