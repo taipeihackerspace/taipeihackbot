@@ -44,7 +44,7 @@ var hiList = ["heya",
              ]
 
 // https://en.wikipedia.org/wiki/Magic_8-Ball
-var 8ballList = [
+var eightballList = [
     "It is certain", 
     "It is decidedly so",
     "Without a doubt",
@@ -107,7 +107,7 @@ bot.addListener('message', function (from, to, message) {
 	    }
 	    break;
 	case '8ball':
-	    var answer = 8ballList[ Math.floor( Math.random() * 8ballList.length ) ];
+	    var answer = eightballList[ Math.floor( Math.random() * eightballList.length ) ];
 	    bot.say(to, answer);
 	    break;
 	case 'open':
