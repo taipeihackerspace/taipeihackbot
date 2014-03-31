@@ -106,3 +106,16 @@ bot.addListener('pm', function (from, message) {
 bot.addListener('error', function(message) {
     console.log('error: ', message);
 });
+
+var myhostname = '';
+// Use it as Ping, every 5 minutes
+setInterval(function() {
+        bot.whois(botName, function(info) {
+            if (myhostname != info.host) {
+                myhostname = info.host;
+                console.log("My Host:"+myhostname);
+            }
+        });
+    },
+    5 * 60 * 1000
+);
