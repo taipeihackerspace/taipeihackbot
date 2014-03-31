@@ -43,6 +43,30 @@ var hiList = ["heya",
               "Hoi"
              ]
 
+// https://en.wikipedia.org/wiki/Magic_8-Ball
+var 8ballList = [
+    "It is certain", 
+    "It is decidedly so",
+    "Without a doubt",
+    "Yes definitely",
+    "You may rely on it",
+    "As I see it, yes",
+    "Most likely",
+    "Outlook good",
+    "Yes",
+    "Signs point to yes",
+    "Reply hazy try again",
+    "Ask again later",
+    "Better not tell you now",
+    "Cannot predict now",
+    "Concentrate and ask again",
+    "Don't count on it",
+    "My reply is no",
+    "My sources say no",
+    "Outlook not so good",
+    "Very doubtful"
+    ]
+
 // Listen for joins
 bot.addListener("join", function(channel, who) {
     // Welcome them in!
@@ -81,6 +105,10 @@ bot.addListener('message', function (from, to, message) {
 	    } else {
 		bot.say(to, "Hey everyone, we've got a joker here, aye, "+from+"?");
 	    }
+	    break;
+	case '8ball':
+	    var answer = 8ballList[ Math.floor( Math.random() * 8ballList.length ) ];
+	    bot.say(to, answer);
 	    break;
 	case 'open':
 	    request.get('http://tpehack.no-ip.biz/spaceapi/',
