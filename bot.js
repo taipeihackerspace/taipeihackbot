@@ -28,6 +28,21 @@ var bot = new irc.Client(server, botName, {
     channels: channels
 });
 
+var hiList = ["heya",
+              "szia",
+              "hola",
+              "salve",
+              "你好",
+              "Здорово",
+              "Grüß Dich",
+              "今日は",
+              "नमस्ते",
+              "salut",
+              "안녕",
+              "Oi",
+              "Hoi"
+             ]
+
 // Listen for joins
 bot.addListener("join", function(channel, who) {
     // Welcome them in!
@@ -35,7 +50,8 @@ bot.addListener("join", function(channel, who) {
 	return;
     }
 
-    bot.say(channel, who + "...heya...welcome to the (virtual) Hackerspace!");
+    var greeting = hiList[ Math.floor( Math.random() * hiList.length ) ];
+    bot.say(channel, who + "..." + greeting + "...welcome to the (virtual) Hackerspace!");
     if (admins.indexOf(who) >= 0) {
 	bot.send('MODE', channel, '+o', who);
     }
