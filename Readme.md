@@ -6,10 +6,31 @@ op to a list of admin users. But in the future!
 
 ## Working commands
 
-* `!help`: not very useful help
+Most of these commands are implemented in plugins
+
+* `!help`: list working commands
 * `!flip`: flip a coin, heads or tails
+* `!yesno`: give a simple yes or no answer
 * `!roll <sides>`: roll a dice, default 6 sided, or if a number given then that
 * `!open`: is anyone checked in the space ("are we open?") using SpaceAPI
+* `!8ball`: ask the magic 8-ball
+* `!iching`: get your i-ching hexagram
+* `!bare`: run the barebones plugin
+
+## Plugins
+
+You can implement other plugins:
+
+* take the example of the barebones plugin (`plugins/barebones.js`)
+* copy it on another file
+* modify your command string, what the commands do, and so on
+* add your filename (without the directory and the .js extension) to the config file you use to run (see `bot.conf.example`)
+
+## Running the bot
+
+* Copy the `bot.conf.example` into another file such that `mybot.conf`
+* Modify the settings inside (the channels to connect to, the bot IRC nick, the enabled plugins)
+* Run `node bot.js mybot.conf` to start up. In 5-10 seconds you should have your bot logged in to the selected channel
 
 ## License
 
