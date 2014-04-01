@@ -32,7 +32,6 @@ var flipCmd = {
 var roll = function(args, to, from) {
     var answer = "";
     var dice = parseInt(args) || 6;
-    console.log(dice);
     if (dice > 0) {
 	answer = "⚅ Rolled a " + (Math.floor(Math.random() * dice) + 1);
     } else {
