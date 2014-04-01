@@ -1,0 +1,13 @@
+{
+    "channels": [
+        "#atestchannel"
+    ],
+    "server": "irc.freenode.net",
+    "botName": "abotname",
+    "admins": [
+    ],
+    "plugins": [
+        "barebones",
+	"random"
+    ]
+}
