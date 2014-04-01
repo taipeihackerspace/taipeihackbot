@@ -29,7 +29,7 @@ var flipCmd = {
 /******************************************/
 
 // Roll a dice
-var roll = function(to, from, args) {
+var roll = function(args, to, from) {
     var answer = "";
     var dice = parseInt(args) || 6;
     console.log(dice);

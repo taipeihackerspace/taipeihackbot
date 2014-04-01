@@ -77,14 +77,17 @@ bot.addListener('message', function (from, to, message) {
     if (messageParts) {
 	botcmd = messageParts[1];
 	botarg = messageParts[2];
+	var botSay = function(to, what) { bot.say(to, what) };
 	if (botcmd == "help") {
 	    for (var key in commands) {
-		bot.say(to, "!" + commands[key].help);
+		botSay(to, "!" + commands[key].help);
 	    }
 	}
 	else if (botcmd in commands) {
-	    var outcome = commands[botcmd].run(to, from, botarg);
-	    bot.say(to, outcome);
+	    var outcome = commands[botcmd].run(botarg, to, from, botSay);
+	    if (outcome) {
+		botSay(to, outcome);
+	    }
 	}
     }
 });
