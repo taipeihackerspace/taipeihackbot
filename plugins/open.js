@@ -28,7 +28,7 @@ var checkOpen = function(args, to, from, say) {
 }
 
 var openCmd = {
-    "help": "open: query if anyone's checked in the Hackespace at the moment",
+    "help": "open: query if anyone's checked in the Hackerspace at the moment",
     "run": checkOpen
 }
 /**********************************/
