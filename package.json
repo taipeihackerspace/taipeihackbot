@@ -14,6 +14,7 @@
   "dependencies": {
     "irc": "~0.3.6",
     "nconf": "~0.6.9",
-    "request": "~2.33.0"
+    "request": "~2.33.0",
+    "underscore": "~1.6.0"
   }
 }

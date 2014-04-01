@@ -1,7 +1,7 @@
 var fs    = require('fs')
   , nconf = require('nconf')
   , irc = require("irc")
-  , request = require('request')
+  , _ = require('underscore')
 ;
 
 // Configuration
@@ -14,18 +14,29 @@ nconf.defaults({
     channels: ["#taipeihack"],
     server: "irc.freenode.net",
     botname: "mybot",
-    admins: []
+    admins: [],
+    plugins: []
 });
 
 var channels = nconf.get('channels')
   , server = nconf.get('server')
   , botName = nconf.get('botName')
   , admins = nconf.get('admins')
+  , plugins = nconf.get('plugins')
 ;
+
+// Load commands from plugins
+var commands = {};
+for (var i in plugins) {
+    var p = require('./plugins/'+plugins[i]);
+    _.extend(commands, p.commands);
+}
 
 // Create the bot name
 var bot = new irc.Client(server, botName, {
-    channels: channels
+    channels: channels,
+    floodProtection: true,
+    floodProtectionDelay: 250
 });
 
 var hiList = ["heya",
@@ -43,30 +54,6 @@ var hiList = ["heya",
               "Hoi"
              ]
 
-// https://en.wikipedia.org/wiki/Magic_8-Ball
-var eightballList = [
-    "It is certain", 
-    "It is decidedly so",
-    "Without a doubt",
-    "Yes definitely",
-    "You may rely on it",
-    "As I see it, yes",
-    "Most likely",
-    "Outlook good",
-    "Yes",
-    "Signs point to yes",
-    "Reply hazy try again",
-    "Ask again later",
-    "Better not tell you now",
-    "Cannot predict now",
-    "Concentrate and ask again",
-    "Don't count on it",
-    "My reply is no",
-    "My sources say no",
-    "Outlook not so good",
-    "Very doubtful"
-    ]
-
 // Listen for joins
 bot.addListener("join", function(channel, who) {
     // Welcome them in!
@@ -82,46 +69,22 @@ bot.addListener("join", function(channel, who) {
 
 });
 
+// Process commands sent to the bot
+var matchCommand = /^\!(\S+)\s*(.*)/;
 bot.addListener('message', function (from, to, message) {
     console.log(from + ' => ' + to + ': ' + message);
-    if ((message.length > 0) && (message[0] === '!')) {
-	var mp = message.split(' ')
-	  , botcmd = mp[0].slice(1)
-	  , botcargs = mp.splice(1);
-	;
-	switch (botcmd) {
-	case 'help':
-	    bot.say(to, "I'm learning it too...");
-	    break;
-	case 'flip':
-	    var outcome = (Math.random() > 0.5) ? 'heads' : 'tails';
-	    bot.say(to, 'It\'s '+outcome+".");
-	    break;
-	case 'roll':
-	    var dice = parseInt(botcargs[0]) || 6;
-	    if (dice > 0) {
-		var outcome = Math.floor(Math.random() * dice) + 1;
-		bot.say(to, 'Rolled a '+outcome);
-	    } else {
-		bot.say(to, "Hey everyone, we've got a joker here, aye, "+from+"?");
+    var messageParts = message.match(matchCommand);
+    if (messageParts) {
+	botcmd = messageParts[1];
+	botarg = messageParts[2];
+	if (botcmd == "help") {
+	    for (var key in commands) {
+		bot.say(to, "!" + commands[key].help);
 	    }
-	    break;
-	case '8ball':
-	    var answer = eightballList[ Math.floor( Math.random() * eightballList.length ) ];
-	    bot.say(to, answer);
-	    break;
-	case 'open':
-	    request.get('http://tpehack.no-ip.biz/spaceapi/',
-			function (error, response, body) {
-			    if (!error && response.statusCode == 200) {
-				var info = JSON.parse(body);
-				var outcome = info.state.open ? 'open :)' : 'closed :/';
-				bot.say(to, "The 'space appears to be "+outcome);
-			    }
-			});
-	    break;
-	default:
-	    bot.say(to, "Hmm? Don't quite know what's '"+botcmd+"'...");
+	}
+	else if (botcmd in commands) {
+	    var outcome = commands[botcmd].run(to, from, botarg);
+	    bot.say(to, outcome);
 	}
     }
 });
