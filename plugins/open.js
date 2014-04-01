@@ -3,7 +3,6 @@
  * whether anyone's checked in
  */
 var rest = require('rest')
-  , when = require('when')
 ;
 
 var fetchSpaceAPI = function() {
