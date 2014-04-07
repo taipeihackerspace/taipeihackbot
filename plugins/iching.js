@@ -74,9 +74,11 @@ var outlinkTemplate = "Explanation: http://wengu.tartarie.com/wg/wengu.php?l=Yij
 var iching = function(args) {
     // get the hexagram query
     var hexagram = parseInt(args) || 0;
+    var randomHexa = false;
 
     if ((hexagram < 1) || (hexagram > 64)) {
 	hexagram = Math.floor(Math.random() * 64) + 1;
+	randomHexa = true;
     }
 
     var v = '';
@@ -92,9 +94,9 @@ var iching = function(args) {
     if (v.length == 0) {
 	v = 'none';
     }
-    var varLines = "Variable lines: "+v;
+    var varLines = randomHexa ? " | Variable lines: "+v : "";
     var outlink = outlinkTemplate.replace(/%NUM%/, hexagram);
-    var text = chars[hexagram] + " | " + varLines  + " | " + outlink;
+    var text = chars[hexagram] + varLines  + " | " + outlink;
     return text;
 }
 
