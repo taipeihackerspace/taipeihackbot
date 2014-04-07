@@ -11,11 +11,12 @@ Most of these commands are implemented in plugins
 * `!help`: list working commands
 * `!flip`: flip a coin, heads or tails
 * `!yesno`: give a simple yes or no answer
-* `!roll <sides>`: roll a dice, default 6 sided, or if a number given then that
+* `!roll (<sides>)`: roll a dice, default 6 sided, or if a number given then that
 * `!open`: is anyone checked in the space ("are we open?") using SpaceAPI
 * `!8ball`: ask the magic 8-ball
-* `!iching`: get your i-ching hexagram
+* `!iching (<hexagram>)`: get your i-ching hexagram
 * `!bare`: run the barebones plugin
+* `!weather (<location>)`: weather report for a given location, or to Taipei
 
 ## Plugins
 
