@@ -63,6 +63,7 @@ bot.addListener("join", function(channel, who) {
 
     var greeting = hiList[ Math.floor( Math.random() * hiList.length ) ];
     bot.say(channel, who + "..." + greeting + "...welcome to the (virtual) Hackerspace!");
+    bot.say(channel, who + ", here's a tip: say !help and I'll tell you what I can do for you.");
     if (admins.indexOf(who) >= 0) {
 	bot.send('MODE', channel, '+o', who);
     }
@@ -79,6 +80,7 @@ bot.addListener('message', function (from, to, message) {
 	botarg = messageParts[2];
 	var botSay = function(to, what) { bot.say(to, what) };
 	if (botcmd == "help") {
+            botSay(to, from + ", here's the list of commands I love to read:")
 	    for (var key in commands) {
 		botSay(to, "!" + commands[key].help);
 	    }
