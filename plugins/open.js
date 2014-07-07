@@ -6,7 +6,7 @@ var rest = require('rest')
 ;
 
 var fetchSpaceAPI = function() {
-    return rest('http://tpehack.no-ip.biz/spaceapi/');
+    return rest('https://taipeihack.org/spaceapi/');
 }
 function parseInfo(response) {
     var info = JSON.parse(response.entity);
