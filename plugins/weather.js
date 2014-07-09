@@ -18,9 +18,14 @@ var weather = function(args, to, from, say) {
 		return
 	    }
 
-	    var lat = w.coord.lat
-              , lon = w.coord.lon
-	    ;
+            try {
+	        var lat = w.coord.lat
+                  , lon = w.coord.lon
+	        ;
+            } catch (err) {
+		say(to, from+": are you sure there's a place like \""+location+"\"?");
+		return
+            };
 	    var locstring = "http://www.openstreetmap.org/#map=12/"+lat+"/"+lon;
 
 	    var status = w.name + ": ";
