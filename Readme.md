@@ -4,7 +4,7 @@ A simple little bot to do some fun stuff. But not just yet.
 At the moment it just keeps the IRC channel alive, and gives
 op to a list of admin users. But in the future!
 
-![dependencies](https://david-dm.org/taipeihackerspace/taipeihackbot.svg)
+[![dependencies](https://david-dm.org/taipeihackerspace/taipeihackbot.svg)](https://david-dm.org/taipeihackerspace/taipeihackbot)
 
 ## Working commands
 
